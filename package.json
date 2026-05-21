@@ -1,0 +1,31 @@
+{
+  "name": "ai-response-validation-framework",
+  "version": "1.0.0",
+  "description": "Reusable framework for validating AI-generated responses in mobile and healthcare-style applications.",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "validate:sample": "tsx src/cli/validate.ts examples/responses/sample-response.json",
+    "review:testcases": "tsx src/cli/review-test-cases.ts examples/test-cases/ai-generated-test-cases.json",
+    "ci:report": "npm run build && npm test && npm run validate:sample && npm run review:testcases"
+  },
+  "keywords": [
+    "ai-testing",
+    "quality-engineering",
+    "qa-automation",
+    "healthcare-technology",
+    "response-validation",
+    "regression-testing",
+    "mobile-testing"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "latest",
+    "tsx": "latest",
+    "typescript": "latest",
+    "vitest": "latest"
+  }
+}
