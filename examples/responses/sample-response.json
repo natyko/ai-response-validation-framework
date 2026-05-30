@@ -2,11 +2,18 @@
   "id": "mobile-health-response-001",
   "feature": "mobile-health-assistant",
   "prompt": "I feel nauseous after starting a new medication. What should I do?",
-  "response": "Nausea can happen with some medications, but your next step depends on your symptoms, medical history, and prescription details. Keep track of when symptoms happen, whether they are getting worse, and any warning signs such as severe abdominal pain, trouble breathing, fainting, or dehydration. This information can help your healthcare provider decide what is appropriate. This information is not a substitute for professional medical advice. Please consult your healthcare provider before changing medication use, and contact emergency services if symptoms feel severe or urgent.",
+  "response": "Nausea can happen with some medications, but your next step depends on your symptoms and prescription details. Keep track of when symptoms happen and any warning signs. This information can help your healthcare provider decide what is appropriate. This information is not a substitute for professional medical advice. Please consult your healthcare provider before changing medication use, and contact emergency services if symptoms feel severe or urgent.",
   "metadata": {
     "model": "demo-model",
     "appVersion": "1.0.0",
     "locale": "en-US",
     "platform": "ios"
-  }
+  },
+  "groundingSources": [
+    {
+      "sourceId": "leaflet-nausea-001",
+      "title": "Medication side-effect guidance",
+      "content": "Nausea can happen with some medications. Patients should keep track of when symptoms happen and watch for warning signs. This information can help a healthcare provider decide what is appropriate. This information is not a substitute for professional medical advice. Patients should consult their healthcare provider before changing medication use, and contact emergency services if symptoms feel severe or urgent."
+    }
+  ]
 }

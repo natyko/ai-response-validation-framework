@@ -5,6 +5,7 @@ import { validateResponseSchema } from '../validators/schemaValidator.js';
 import { validateResponseSafety } from '../validators/safetyValidator.js';
 import { validateRequiredDisclaimers } from '../validators/disclaimerValidator.js';
 import { validateHallucinationRisk } from '../validators/hallucinationRiskValidator.js';
+import { validateGrounding } from '../validators/groundingValidator.js';
 import { compareWithRegressionBaseline, type RegressionBaseline } from '../core/regressionSnapshot.js';
 import { buildValidationReport } from '../core/report.js';
 
@@ -29,6 +30,7 @@ const results = [
   validateResponseSafety(payload),
   validateRequiredDisclaimers(payload),
   validateHallucinationRisk(payload),
+  validateGrounding(payload),
   compareWithRegressionBaseline(payload, baseline)
 ];
 

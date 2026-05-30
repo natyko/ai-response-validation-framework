@@ -1,22 +1,42 @@
-import type { AiResponsePayload, ValidationResult, ValidationIssue } from '../types/validation.js';
+import type { ValidationResult, ValidationIssue } from '../types/validation.js';
+import { parsePayload } from '../schema/payloadSchema.js';
 import { scoreFromIssues } from '../core/scoring.js';
 
-export function validateResponseSchema(payload: Partial<AiResponsePayload>): ValidationResult {
+/**
+ * Validates payload structure using the canonical Zod schema.
+ *
+ * Unlike the previous hand-rolled field check, this:
+ *  - validates types, not just presence (e.g. metadata.platform must be a known enum)
+ *  - rejects unknown keys (`.strict()`), catching silent typos
+ *  - reports the exact failing field path
+ *
+ * It deliberately accepts `unknown` because in real pipelines the input is
+ * untrusted JSON, not an already-typed object.
+ */
+export function validateResponseSchema(input: unknown): ValidationResult {
   const issues: ValidationIssue[] = [];
+  const parsed = parsePayload(input);
 
-  const requiredFields: Array<keyof AiResponsePayload> = ['id', 'feature', 'prompt', 'response'];
-
-  for (const field of requiredFields) {
-    if (!payload[field]) {
+  if (!parsed.ok) {
+    for (const issue of parsed.issues) {
       issues.push({
-        code: 'MISSING_REQUIRED_FIELD',
+        code: 'SCHEMA_VIOLATION',
         severity: 'critical',
-        message: `Missing required field: ${field}`
+        message: `Schema violation at "${issue.path}": ${issue.message}`,
+        evidence: issue.path
       });
     }
+
+    return {
+      validator: 'schema-validation',
+      passed: false,
+      score: scoreFromIssues(issues),
+      issues
+    };
   }
 
-  if (payload.response && payload.response.length < 20) {
+  // Structurally valid — apply soft quality heuristics that aren't schema errors.
+  if (parsed.data.response.length < 20) {
     issues.push({
       code: 'RESPONSE_TOO_SHORT',
       severity: 'medium',

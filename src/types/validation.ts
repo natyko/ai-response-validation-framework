@@ -1,17 +1,18 @@
-export type Severity = 'low' | 'medium' | 'high' | 'critical';
+/**
+ * Payload shape types are DERIVED from the Zod schema (single source of truth)
+ * and re-exported here so existing imports from `types/validation.js` keep
+ * working. Do not hand-redefine the payload here — edit `schema/payloadSchema.ts`.
+ */
+export type {
+  AiResponsePayload,
+  ResponseMetadata,
+  GroundingSource,
+  Platform
+} from '../schema/payloadSchema.js';
 
-export interface AiResponsePayload {
-  id: string;
-  feature: string;
-  prompt: string;
-  response: string;
-  metadata?: {
-    model?: string;
-    appVersion?: string;
-    locale?: string;
-    platform?: 'ios' | 'android' | 'web';
-  };
-}
+// ─── Validation result types (not payload shape — defined here) ──────────────
+
+export type Severity = 'low' | 'medium' | 'high' | 'critical';
 
 export interface ValidationIssue {
   code: string;
